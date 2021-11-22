@@ -5,6 +5,7 @@ namespace App\Dtos;
 use Spatie\DataTransferObject\DataTransferObject;
 
 class TaskDto extends DataTransferObject {
+    public string|null $id;
     public string $title;
     public string|null $description;
     public bool $completed;

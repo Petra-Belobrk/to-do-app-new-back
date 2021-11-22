@@ -18,14 +18,19 @@ use Illuminate\Support\Facades\Route;
 */
 
 Route::middleware('guest')->group(function () {
-    Route::post('/register', RegisterController::class);
-    Route::post('/login', LoginController::class);
+    Route::post('/register', RegisterController::class)->name('auth.register');
+    Route::post('/login', LoginController::class)->name('auth.login');
 });
 
 Route::middleware('auth:sanctum')->group(function () {
-    Route::delete('/logout', LogoutController::class);
+    Route::delete('/logout', LogoutController::class)->name('auth.logout');
     Route::prefix('tasks')->group(function() {
-        Route::get('/', [TaskController::class, 'index']);
-        Route::post('/', [TaskController::class, 'store']);
+        Route::get('/', [TaskController::class, 'index'])->name('tasks.list');
+        Route::post('/', [TaskController::class, 'store'])->name('tasks.create');
+        Route::get('/deleted', [TaskController::class, 'trashed'])->name('tasks.trashed');
+        Route::get('/restore/{id}', [TaskController::class, 'restore'])->name('tasks.restore');
+        Route::put('/{id}', [TaskController::class, 'update'])->name('tasks.update');
+        Route::get('/{id}', [TaskController::class, 'show'])->name('tasks.show');
+        Route::delete('/{id}', [TaskController::class, 'delete'])->name('tasks.delete');
     });
 });
