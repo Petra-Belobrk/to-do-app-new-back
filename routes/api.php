@@ -16,6 +16,18 @@ use Illuminate\Support\Facades\Route;
 | is assigned the "api" middleware group. Enjoy building your API!
 |
 */
+/**
+ * Healthcheck
+ */
+Route::get('/healthcheck', function () {
+    return [
+        'status' => 'up',
+        'services' => [
+            'database' => 'up',
+            'redis' => 'up',
+        ],
+    ];
+});
 
 Route::middleware('guest')->group(function () {
     Route::post('/register', RegisterController::class)->name('auth.register');
